@@ -74,7 +74,7 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
 @Preview
 @Composable
 fun MainContent() {
-    androidx.compose.material.Surface(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(12.dp),
@@ -82,10 +82,7 @@ fun MainContent() {
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
         Column() {
-            Text(text = "hello world...")
-            Text(text = "hello world...")
-            Text(text = "hello world...")
-            Text(text = "hello world...")
+
         }
     }
 }
