@@ -3,9 +3,11 @@ package com.ruiter.jettipcompose
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -39,7 +41,7 @@ fun MyApp(content: @Composable () -> Unit) {
     }
 }
 
-@Preview
+//@Preview
 @Composable
 fun TopHeader(totalPerPerson: Double = 134.0) {
     Surface(
@@ -57,20 +59,33 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
             verticalArrangement = Arrangement.Center
         ) {
 
-            Text(text = "Total per person",
-            style = MaterialTheme.typography.h5)
-            Text(text = "$$total",
-            style = MaterialTheme.typography.h4)
+            Text(
+                text = "Total per person",
+                style = MaterialTheme.typography.h5
+            )
+            Text(
+                text = "$$total",
+                style = MaterialTheme.typography.h4
+            )
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun DefaultPreview() {
-    JetTipComposeTheme {
-        MyApp {
-            Text(text = "Hello World")
+fun MainContent() {
+    androidx.compose.material.Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(12.dp),
+        shape = RoundedCornerShape(corner = CornerSize(8.dp)),
+        border = BorderStroke(width = 1.dp, color = Color.LightGray)
+    ) {
+        Column() {
+            Text(text = "hello world...")
+            Text(text = "hello world...")
+            Text(text = "hello world...")
+            Text(text = "hello world...")
         }
     }
 }
