@@ -1,6 +1,7 @@
 package com.ruiter.jettipcompose
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -83,6 +84,14 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
 @Preview
 @Composable
 fun MainContent() {
+    BillForm() { billAtm ->
+        Log.i("ruiter", "MainContent: $billAtm")
+    }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) {
     val totalPaymentState = remember {
         mutableStateOf("")
     }
@@ -108,6 +117,9 @@ fun MainContent() {
                 isSingleLine = true,
                 onAction = KeyboardActions {
                     if (!validState) return@KeyboardActions
+
+                    onValChange(totalPaymentState.value)
+
                     keyBoardController?.hide()
                 }
             )
