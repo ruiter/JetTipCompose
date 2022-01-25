@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Slider
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
@@ -106,6 +107,10 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
 
     val keyBoardController = LocalSoftwareKeyboardController.current
 
+    val sliderPositionState = remember {
+        mutableStateOf(0f)
+    }
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -134,7 +139,7 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
 
             if (validState) {
                 Row(
-                    modifier = Modifier.padding(3.dp),
+                    modifier = Modifier.padding(horizontal = 3.dp),
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Text(
@@ -143,12 +148,45 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                     )
                     Spacer(modifier = Modifier.width(120.dp))
                     Row(
-                        modifier = Modifier.padding(horizontal = 3.dp),
+                        modifier = Modifier.padding(horizontal = 4.dp),
                         horizontalArrangement = Arrangement.End
                     ) {
                         RoundIconButton(imageVector = Icons.Default.Remove, onClick = { /*TODO*/ })
+
+                        Text(
+                            text = "2", modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(start = 9.dp, end = 9.dp)
+                        )
+
                         RoundIconButton(imageVector = Icons.Default.Add, onClick = { /*TODO*/ })
                     }
+                }
+
+                Row(
+                    modifier = Modifier.padding(horizontal = 4.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    Text(
+                        text = "text",
+                        modifier = Modifier.align(alignment = Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(200.dp))
+                    Text(
+                        text = "$33",
+                        modifier = Modifier.align(alignment = Alignment.CenterVertically)
+                    )
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(text = "33%")
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Slider(value = sliderPositionState.value, onValueChange = {
+                        sliderPositionState.value = it
+                    })
                 }
             }
         }
