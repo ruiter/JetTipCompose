@@ -38,7 +38,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MyApp {
-                //TopHeader()
                 MainContent()
             }
         }
@@ -62,8 +61,9 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
         modifier = Modifier
             .fillMaxWidth()
             .height(150.dp)
+            .padding(16.dp)
             .clip(shape = CircleShape.copy(all = CornerSize(12.dp))),
-        color = Color(0xFFBC89FF)
+        color = Color(0xFFDEC4FF)
     ) {
         val total = "%.2f".format(totalPerPerson)
 
@@ -89,8 +89,10 @@ fun TopHeader(totalPerPerson: Double = 134.0) {
 @Preview
 @Composable
 fun MainContent() {
-    BillForm() { billAtm ->
-        Log.i("ruiter", "MainContent: $billAtm")
+    Column {
+        BillForm() { billAtm ->
+            Log.i("ruiter", "MainContent: $billAtm")
+        }
     }
 }
 
@@ -111,10 +113,12 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
         mutableStateOf(0f)
     }
 
+    TopHeader()
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp),
+            .padding(8.dp),
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
     ) {
@@ -123,6 +127,7 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
+
             InputField(
                 valueState = totalPaymentState,
                 labelId = "Enter Payment",
@@ -184,9 +189,17 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                 ) {
                     Text(text = "33%")
                     Spacer(modifier = Modifier.height(14.dp))
-                    Slider(value = sliderPositionState.value, onValueChange = {
-                        sliderPositionState.value = it
-                    })
+                    Slider(
+                        value = sliderPositionState.value,
+                        onValueChange = {
+                            sliderPositionState.value = it
+                        },
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                        steps = 5,
+                        onValueChangeFinished = {
+
+                        }
+                    )
                 }
             }
         }
