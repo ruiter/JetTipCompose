@@ -113,6 +113,10 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
         mutableStateOf(0f)
     }
 
+    val splitByState = remember {
+        mutableStateOf(1)
+    }
+
     TopHeader()
 
     Surface(
@@ -142,66 +146,76 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                 }
             )
 
-            if (validState) {
-                Row(
-                    modifier = Modifier.padding(horizontal = 3.dp),
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Text(
-                        text = "Split",
-                        modifier = Modifier.align(alignment = Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.width(120.dp))
-                    Row(
-                        modifier = Modifier.padding(horizontal = 4.dp),
-                        horizontalArrangement = Arrangement.End
-                    ) {
-                        RoundIconButton(imageVector = Icons.Default.Remove, onClick = { /*TODO*/ })
-
-                        Text(
-                            text = "2", modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .padding(start = 9.dp, end = 9.dp)
-                        )
-
-                        RoundIconButton(imageVector = Icons.Default.Add, onClick = { /*TODO*/ })
-                    }
-                }
-
+            //if (validState) {
+            Row(
+                modifier = Modifier.padding(horizontal = 3.dp),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = "Split",
+                    modifier = Modifier.align(alignment = Alignment.CenterVertically)
+                )
+                Spacer(modifier = Modifier.width(120.dp))
                 Row(
                     modifier = Modifier.padding(horizontal = 4.dp),
-                    horizontalArrangement = Arrangement.Start
+                    horizontalArrangement = Arrangement.End
                 ) {
-                    Text(
-                        text = "text",
-                        modifier = Modifier.align(alignment = Alignment.CenterVertically)
-                    )
-                    Spacer(modifier = Modifier.width(200.dp))
-                    Text(
-                        text = "$33",
-                        modifier = Modifier.align(alignment = Alignment.CenterVertically)
-                    )
-                }
-
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(text = "33%")
-                    Spacer(modifier = Modifier.height(14.dp))
-                    Slider(
-                        value = sliderPositionState.value,
-                        onValueChange = {
-                            sliderPositionState.value = it
-                        },
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                        steps = 5,
-                        onValueChangeFinished = {
-
+                    RoundIconButton(imageVector = Icons.Default.Remove, onClick = {
+                        splitByState.value = if (splitByState.value > 1) {
+                            splitByState.value - 1
+                        } else {
+                            1
                         }
+                    })
+
+                    Text(
+                        text = "${splitByState.value}", modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(start = 9.dp, end = 9.dp)
                     )
+
+                    RoundIconButton(imageVector = Icons.Default.Add, onClick = {
+                        if (splitByState.value < 100) {
+                            splitByState.value = splitByState.value + 1
+                        }
+                    })
                 }
             }
+
+            Row(
+                modifier = Modifier.padding(horizontal = 4.dp),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                Text(
+                    text = "text",
+                    modifier = Modifier.align(alignment = Alignment.CenterVertically)
+                )
+                Spacer(modifier = Modifier.width(200.dp))
+                Text(
+                    text = "$33",
+                    modifier = Modifier.align(alignment = Alignment.CenterVertically)
+                )
+            }
+
+            Column(
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = "33%")
+                Spacer(modifier = Modifier.height(14.dp))
+                Slider(
+                    value = sliderPositionState.value,
+                    onValueChange = {
+                        sliderPositionState.value = it
+                    },
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+                    steps = 5,
+                    onValueChangeFinished = {
+
+                    }
+                )
+            }
+            //}
         }
     }
 }
