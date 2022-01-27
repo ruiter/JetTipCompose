@@ -158,7 +158,6 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                 }
             )
 
-            //if (validState) {
             Row(
                 modifier = Modifier.padding(horizontal = 3.dp),
                 horizontalArrangement = Arrangement.Start
@@ -246,7 +245,6 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                     }
                 )
             }
-            //}
         }
     }
 }
