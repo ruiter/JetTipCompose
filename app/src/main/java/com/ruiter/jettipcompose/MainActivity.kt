@@ -30,6 +30,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ruiter.jettipcompose.components.InputField
 import com.ruiter.jettipcompose.ui.theme.JetTipComposeTheme
+import com.ruiter.jettipcompose.utils.calculateTotalPerPerson
+import com.ruiter.jettipcompose.utils.calculateTotalTip
 import com.ruiter.jettipcompose.widgets.RoundIconButton
 
 class MainActivity : ComponentActivity() {
@@ -119,7 +121,15 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
 
     val tipPercentage = (sliderPositionState.value * 100).toInt()
 
-    TopHeader()
+    val totalAmountBill = remember {
+        mutableStateOf(0.0)
+    }
+
+    val totalPerPersonState = remember {
+        mutableStateOf(0.0)
+    }
+
+    TopHeader(totalPerPerson = totalPerPersonState.value)
 
     Surface(
         modifier = Modifier
@@ -168,6 +178,11 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                         } else {
                             1
                         }
+                        totalPerPersonState.value = calculateTotalPerPerson(
+                            totalBill = totalPaymentState.value.toDouble(),
+                            splitByState.value,
+                            tipPercentage = tipPercentage
+                        )
                     })
 
                     Text(
@@ -179,6 +194,11 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                     RoundIconButton(imageVector = Icons.Default.Add, onClick = {
                         if (splitByState.value < 100) {
                             splitByState.value = splitByState.value + 1
+                            totalPerPersonState.value = calculateTotalPerPerson(
+                                totalBill = totalPaymentState.value.toDouble(),
+                                splitByState.value,
+                                tipPercentage = tipPercentage
+                            )
                         }
                     })
                 }
@@ -194,7 +214,7 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                 )
                 Spacer(modifier = Modifier.width(200.dp))
                 Text(
-                    text = "$33",
+                    text = "$ ${totalAmountBill.value}",
                     modifier = Modifier.align(alignment = Alignment.CenterVertically)
                 )
             }
@@ -209,6 +229,15 @@ fun BillForm(modifier: Modifier = Modifier, onValChange: (String) -> Unit = {}) 
                     value = sliderPositionState.value,
                     onValueChange = {
                         sliderPositionState.value = it
+                        totalAmountBill.value = calculateTotalTip(
+                            totalBill = totalPaymentState.value.toDouble(),
+                            tipPercentage = tipPercentage
+                        )
+                        totalPerPersonState.value = calculateTotalPerPerson(
+                            totalBill = totalPaymentState.value.toDouble(),
+                            splitByState.value,
+                            tipPercentage = tipPercentage
+                        )
                     },
                     modifier = Modifier.padding(start = 16.dp, end = 16.dp),
                     steps = 5,
